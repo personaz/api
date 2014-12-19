@@ -1,0 +1,12 @@
+kelamin
+    1 = Pria
+    2 = Wanita
+
+type_semester
+    1 = Ganjil
+    2 = Genap
+
+prog_pendidikan
+    1 = Diploma 3
+    2 = Strata 1
+    3 = Magister
