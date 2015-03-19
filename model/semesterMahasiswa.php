@@ -1,46 +1,54 @@
 <?php
-require_once './config.php';
+require_once('abstract.php');
 
-class SemesterMahasiswa
+class SemesterMahasiswa extends DbAbstract
 {
-    private $_config;
-
-    function __construct()
-    {
-        if(!$this->_config) {
-            $this->_config = new MainConfig();
-        }
-    }
-
+    /**
+     * get all semester for mahasiswa by nim
+     *
+     * @param String $nim
+     * @return Array
+     */
     function fetchAllSemesterByNIM($nim)
     {
-        $db = $this->_config
-            ->getConnection();
         $predicate = array(
             ':nim'  => $nim,
         );
         $q = "SELECT * FROM semester_mahasiswa WHERE nim = :nim";
-        $stmt = $db->prepare($q);
-        $stmt->execute($predicate);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->getAll($q, $predicate);
     }
 
+    /**
+     * if $type == 1, fetch row "Semeseter Ganjil",
+     * $type == 2, fetch row "Semester Genap" for Mahasiswa
+     *
+     * @param String $nim
+     * @param Int $type
+     * @return Array
+     */
     function fetchSemesterByType($nim, $type)
     {
-        /**
-         * if $type == 1, fetch all "Semeseter Ganjil",
-         * $type == 2, fetch all "Semester Genap" for Mahasiswa
-         */
-
-        $db = $this->_config
-            ->getConnection();
         $predicate = array(
             ':nim'              => $nim,
             ':type_semester'    => $type,
         );
         $q = "SELECT * FROM semester_mahasiswa WHERE nim = :nim AND type_semester = :type_semester";
-        $stmt = $db->prepare($q);
-        $stmt->execute($predicate);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->getRow($q, $predicate);
+    }
+
+    /**
+     * get latest semester mahasiswa by nim
+     *
+     * @param String $nim
+     * @return Array
+     */
+    function getLatestSemesterForNIM($nim)
+    {
+        $predicate = array(
+            ':nim'  => $nim
+        );
+        $sq = "SELECT MAX(id_smms) FROM semester_mahasiswa WHERE nim = :nim";
+        $mq = "SELECT * FROM semester_mahasiswa WHERE id_smms = ($sq)";
+        return $this->getRow($mq, $predicate);
     }
 }

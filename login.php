@@ -1,11 +1,15 @@
 <?php
-require_once 'model/mahasiswa.php';
-require_once 'Zend/Debug.php';
+require_once('model/mahasiswa.php');
+require_once('model/semesterMahasiswa.php');
+require_once('model/matkulMahasiswa.php');
+//require_once('Zend/Debug.php');
 
-$data = file_get_contents('php://input');
+/**$data = file_get_contents('php://input');
 $post = json_decode($data);
 $nim = $post->nim;
-$pass = $post->password;
+$pass = $post->password;*/
+$nim = '1500300001';
+$pass = 'zulham';
 if(!$nim || !$pass) {
     echo json_encode(array(
         'status' => 'fail',
@@ -22,4 +26,8 @@ try {
     );
 }
 
-echo json_encode($retu);
+$sms = new SemesterMahasiswa();
+$smes = $sms->getLatestSemesterForNIM($nim);
+$mat = new MatkulMahasiswa();
+echo json_encode($mat->getAllMatakuliahOnSemesterId($smes['id_smms']));
+//echo json_encode($retu);

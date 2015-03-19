@@ -6,6 +6,13 @@ type_semester
     1 = Ganjil
     2 = Genap
 
+kode_matkul
+    7 digit {
+        2 digit = id_jurusan
+        2 digit = semester
+        3 digit = unique code
+    }
+
 prog_pendidikan
     1 = Diploma 3
     2 = Strata 1
