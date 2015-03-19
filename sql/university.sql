@@ -123,6 +123,33 @@ INSERT INTO `matkul_mahasiswa` VALUES (1,1,'0301001',NULL),(2,1,'0301002',NULL);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `news`
+--
+
+DROP TABLE IF EXISTS `news`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `news` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `judul` varchar(200) NOT NULL,
+  `isi` text NOT NULL,
+  `tanggalBerita` datetime NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `news`
+--
+
+LOCK TABLES `news` WRITE;
+/*!40000 ALTER TABLE `news` DISABLE KEYS */;
+INSERT INTO `news` VALUES (1,'Berita Pertama','Contoh isi berita pertama. Ini hanyalah sebuah contoh berita utama yang digunakan untuk project skripsi saja.','2015-03-19 21:48:31',0),(2,'Berita Kedua','Isi berita kedua. Contoh isi berita kedua, berupa text sample untuk keterangan isi berita, dengan judul berita kedua.','2015-03-19 21:48:31',0);
+/*!40000 ALTER TABLE `news` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `semester_mahasiswa`
 --
 
@@ -156,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-13 22:57:31
+-- Dump completed on 2015-03-19 22:05:41
