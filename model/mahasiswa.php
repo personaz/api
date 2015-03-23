@@ -18,7 +18,13 @@ class Mahasiswa extends DbAbstract
             ':password' => sha1($password),
         );
         $q = "SELECT * FROM mahasiswa WHERE nim = :nim AND password = :password";
-        return $this->getRow($q, $predicate) ? true : false;
+        $ret = array();
+        if ($this->getRow($q, $predicate)) {
+            $ret['available'] = 'YES';
+        } else {
+            $ret['available'] = 'NO';
+        }
+        return $ret;
     }
 
     /**

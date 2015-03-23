@@ -10,7 +10,7 @@ class MainConfig
     {
         $this->_dsn = 'mysql:host=localhost;dbname=university;charset=utf8';
         $this->_user = 'root';
-        $this->_pass = '';
+        $this->_pass = 'x';
     }
 
     function getConnection()

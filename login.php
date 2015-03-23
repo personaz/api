@@ -2,7 +2,6 @@
 require_once('model/mahasiswa.php');
 require_once('model/semesterMahasiswa.php');
 require_once('model/matkulMahasiswa.php');
-require_once('model/news.php');
 
 $data = file_get_contents('php://input');
 $post = json_decode($data);
@@ -14,6 +13,7 @@ if(!$nim || !$pass) {
     echo json_encode(array(
         'status' => 'fail',
     ));
+    exit;
 }
 
 $ms = new Mahasiswa();
