@@ -18,7 +18,11 @@ if(!$nim || !$pass) {
 
 $ms = new Mahasiswa();
 try {
-    $retu = $ms->Login($nim, $pass);
+    $retu['available'] = 'NO';
+    $success = $ms->Login($nim, $pass);
+    if ($success) {
+        $retu['available'] = 'YES';
+    }
 } catch(PDOException $e) {
     $retu = array(
         'status'    => 'fail',

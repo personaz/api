@@ -18,13 +18,7 @@ class Mahasiswa extends DbAbstract
             ':password' => sha1($password),
         );
         $q = "SELECT * FROM mahasiswa WHERE nim = :nim AND password = :password";
-        $ret = array();
-        if ($this->getRow($q, $predicate)) {
-            $ret['available'] = 'YES';
-        } else {
-            $ret['available'] = 'NO';
-        }
-        return $ret;
+        return $this->getRow($q, $predicate);
     }
 
     /**
@@ -38,7 +32,9 @@ class Mahasiswa extends DbAbstract
         $predicate = array(
             ':nim'  => $nim,
         );
-        $q = "SELECT * FROM mahasiswa WHERE nim = :nim";
+        $msCol = "ms.nim, ms.nama, ms.kelamin, ms.alamat, ms.tgl_lahir, ms.id_jurusan, ms.tgl_masuk";
+        $jCol = "j.*";
+        $q = "SELECT $msCol, $jCol FROM mahasiswa AS ms LEFT JOIN jurusan AS j ON ms.id_jurusan = j.id_jurusan WHERE ms.nim = :nim";
         return $this->getRow($q, $predicate);
     }
 
@@ -60,5 +56,27 @@ class Mahasiswa extends DbAbstract
         $semester = $this->getAll($qs, $predicate);
         $ms['semester_mahasiswa'] = $semester;
         return $ms;
+    }
+
+    /**
+     * change old password with new password mahasiswa by nim
+     * return array yes or no
+     *
+     * @param String $newPassword
+     * @param String $nim
+     * @return Int
+     */
+    function changePasswordForMahasiswaByNIM($newPassword, $nim)
+    {
+        $predicate = array(
+            ':nim'      => $nim
+        );
+
+        $set = array(
+            ':password' => $newPassword
+        );
+
+        $query = "UPDATE mahasiswa SET password = SHA1(:password) WHERE nim = :nim";
+        $this->update($query, $set, $predicate);
     }
 }

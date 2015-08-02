@@ -53,4 +53,36 @@ class DbAbstract
         $stmt->execute($predicate);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * insert new data with query and value
+     * return bool
+     *
+     * @param String $query
+     * @param Array $values
+     * @return Bool
+     */
+    function insert($query, $values)
+    {
+        $db = $this->getConfig()
+            ->getConnection();
+        $stmt = $db->prepare($query);
+        return $stmt->execute($values);
+    }
+
+    /**
+     * update data by query on set with predicate
+     *
+     * @param String $query
+     * @param Array $set
+     * @param Array $predicate
+     */
+    function update($query, $set, $predicate)
+    {
+        $db = $this->getConfig()
+            ->getConnection();
+        $where = array_merge($set, $predicate);
+        $stmt = $db->prepare($query);
+        return $stmt->execute($where);
+    }
 }
